@@ -1,0 +1,51 @@
+* To download SRA files
+
+wget -c ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP000/SRP000714/SRR015164/SRR015164.sra
+
+wget -c ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP000/SRP000714/SRR015165/SRR015165.sra
+
+wget -c ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByStudy/sra/SRP/SRP000/SRP000714/SRR015166/SRR015166.sra
+
+* To convert SRA files to fastq
+
+fastq-dump SRR015164.sra
+
+fastq-dump SRR015165.sra
+
+fastq-dump SRR015166.sra 
+
+* To perform quality check
+
+fastqc SRR015164.fastq
+
+fastqc SRR015165.fastq
+
+fastqc SRR015166.fastq
+
+* To get index file
+
+curl -O ftp://ftp.ensembl.org/pub/release-90/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.alt.fa.gz
+
+* To extract index file
+
+gunzip Homo_sapiens.GRCh38.dna.alt.fa.gz
+
+* To build index file
+
+bowtie2-build  Homo_sapiens.GRCh38.dna.alt.fa Homo_sapiens.GRCh38.dna.alt
+
+* To get SAM files
+
+bowtie2 -x  Homo_sapiens.GRCh38.dna.alt.fa Homo_sapiens.GRCh38.dna.alt -U SRR015164.fastq -S SRR015164.sam
+
+bowtie2 -x  Homo_sapiens.GRCh38.dna.alt.fa Homo_sapiens.GRCh38.dna.alt -U SRR015165.fastq -S SRR015165.sam
+
+bowtie2 -x  Homo_sapiens.GRCh38.dna.alt.fa Homo_sapiens.GRCh38.dna.alt -U SRR015166.fastq -S SRR015166.sam
+
+* To get read counts
+
+htseq-count SRR015164.sam annotation_homo.gtf
+
+htseq-count SRR015165.sam annotation_homo.gtf
+
+htseq-count SRR015164.sam annotation_homo.gtf
